@@ -8,13 +8,14 @@ export function getRequiredEnv(name: keyof ImportMetaEnv): string {
   return value as string;
 }
 
-const keycloakJson = JSON.parse(getRequiredEnv('VITE_KEYCLOAK_JSON'));
+const keycloakJson = JSON.parse(getRequiredEnv("VITE_KEYCLOAK_JSON"));
 
 export const env = {
-  apiUrl: getRequiredEnv('VITE_API_URL'),
+  apiUrl: getRequiredEnv("VITE_API_URL"),
   baseUrl: import.meta.env.BASE_URL,
-  keycloakUrl: keycloakJson['auth-server-url'],
+  keycloakUrl: keycloakJson["auth-server-url"],
   keycloakRealm: keycloakJson.realm,
   keycloakClientId: keycloakJson.resource,
   keycloakClientSecret: keycloakJson.credentials?.secret,
+  openrouterApiKey: import.meta.env.OPENROUTER_API_KEY,
 };
