@@ -1,0 +1,6 @@
+allowBuilds:
+  core-js: true
+  esbuild: true
+  msw: true
+minimumReleaseAgeExclude:
+  - '@cincoders/cinnamon@2.1.0'
