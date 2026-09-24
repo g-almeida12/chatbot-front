@@ -1,10 +1,11 @@
 export enum Links {
-  ACCOUNT_MANAGEMENT = 'https://account.cin.ufpe.br',
-  INTRANET_HOME = 'https://intranet.cin.ufpe.br/',
-  HOME = '/',
-  FORBIDDEN = '/forbidden',
-  TODOS = '/todos',
-  TEAM = '/team',
+  ACCOUNT_MANAGEMENT = "https://account.cin.ufpe.br",
+  INTRANET_HOME = "https://intranet.cin.ufpe.br/",
+  HOME = "/",
+  FORBIDDEN = "/forbidden",
+  TODOS = "/todos",
+  TEAM = "/team",
+  CHAT = "/chat",
 }
 
 /**
@@ -22,8 +23,8 @@ export const ADMIN_ONLY_LINKS: string[] = [Links.TEAM];
  * em cada ação (`<Can roles={[...]}>`).
  */
 export enum Roles {
-  USERS = 'sys_chatbot-users',
-  ADMIN = 'sys_chatbot-admin',
+  USERS = "sys_chatbot-users",
+  ADMIN = "sys_chatbot-admin",
 }
 
 /**
