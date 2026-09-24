@@ -1,5 +1,5 @@
 import { env } from "@/config/env";
-import { API_URL, fetchApi, getApiErrorMessage } from "../../services/api";
+import { getApiErrorMessage } from "../../services/api";
 import type { ChatbotRequestDTO, ChatbotResponse } from "./chatbot.types";
 import { createParser } from "eventsource-parser";
 
@@ -9,18 +9,22 @@ export class ChatbotService {
     dto: ChatbotRequestDTO,
     onChunk: (chunk: ChatbotResponse) => void,
   ): Promise<void> {
-    const response = await fetchApi(`${API_URL}/chat`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${env.openrouterApiKey}`,
+    // TODO: trocar o link para o da API: '${API_URL}/chat' e usar 'fetchApi'
+    const response = await fetch(
+      `https://openrouter.ai/api/v1/chat/completions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.openrouterApiKey}`,
+        },
+        body: JSON.stringify({
+          model: "openrouter/free",
+          messages: dto.messages,
+          stream: true,
+        }),
       },
-      body: JSON.stringify({
-        model: "openrouter/free",
-        messages: dto,
-        stream: true,
-      }),
-    });
+    );
 
     if (!response.ok) {
       const message = await getApiErrorMessage(

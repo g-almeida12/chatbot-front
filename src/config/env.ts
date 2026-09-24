@@ -17,5 +17,5 @@ export const env = {
   keycloakRealm: keycloakJson.realm,
   keycloakClientId: keycloakJson.resource,
   keycloakClientSecret: keycloakJson.credentials?.secret,
-  openrouterApiKey: import.meta.env.OPENROUTER_API_KEY,
+  openrouterApiKey: import.meta.env.VITE_OPENROUTER_API_KEY,
 };
