@@ -26,11 +26,11 @@ export function ChatbotInput({
 
   return (
     <form
-      className="flex flex-row gap-4 border-t border-border px-4 py-2"
+      className="flex flex-row gap-4 border-t border-sidebar-ring px-4 py-2"
       onSubmit={handleSubmit}
     >
       <input
-        className="flex-1 min-w-0 border border-border rounded-full px-4 py-2 outline-none bg-muted"
+        className="flex-1 min-w-0 border border-sidebar-ring rounded-full px-4 py-2 outline-none bg-transparent"
         placeholder="Escreva sua dúvida"
         name="prompt"
         autoComplete="off"
