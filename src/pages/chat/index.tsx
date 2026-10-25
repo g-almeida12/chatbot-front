@@ -1,8 +1,8 @@
 import type { ChatbotMessage } from "@/modules/chatbot/chatbot.types";
 import { ChatbotInput } from "@/modules/chatbot/components/ChatbotInput";
 import { ChatbotMessageList } from "@/modules/chatbot/components/ChatbotMessages";
-import { useChatbot } from "@/modules/chatbot/useChatbot";
 import { RefreshIcon } from "@/components/icons";
+import { useMockedChatbot } from "@/mocks/mocked-use-chatbot";
 
 const INITIAL_ASSISTANT_MESSAGE: ChatbotMessage = {
   id: `assistant-${Date.now()}`,
@@ -12,12 +12,15 @@ const INITIAL_ASSISTANT_MESSAGE: ChatbotMessage = {
 };
 
 export default function ChatbotPage() {
-  const { sendMessage, messages, isLoading, hasError } = useChatbot([
-    INITIAL_ASSISTANT_MESSAGE,
-  ]);
+  const {
+    sendMessage,
+    messages,
+    isLoading,
+    hasError,
+  } = useMockedChatbot([INITIAL_ASSISTANT_MESSAGE]);
 
   return (
-    <div className="mx-auto w-full grid grid-rows-[auto_1fr_auto] max-w-7xl h-[calc(100dvh-4rem-40px)] border border-sidebar-ring rounded-sm overflow-hidden sm:px-6 lg:px-8">
+    <div className="mx-auto w-full grid grid-rows-[auto_1fr_auto] max-w-5xl h-[calc(100dvh-4rem-40px)] border border-sidebar-ring rounded-sm overflow-hidden">
       {/* Top bar */}
       <div className="flex flex-row items-center justify-between border-b border-b-sidebar-ring px-4 py-2">
         {/* Brand */}
