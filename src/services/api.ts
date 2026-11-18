@@ -138,6 +138,7 @@ export const getApiErrorMessage = async (
 ): Promise<string> => {
   try {
     const data = await response.clone().json();
+    if (typeof data?.detail === 'string' && data.detail.trim()) return data.detail;
     const msg = data?.message ?? data?.error;
     if (Array.isArray(msg)) return msg.filter(Boolean).join(', ');
     if (typeof msg === 'string' && msg.trim()) return msg;

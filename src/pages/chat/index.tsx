@@ -2,7 +2,7 @@ import type { ChatbotMessage } from "@/modules/chatbot/chatbot.types";
 import { ChatbotInput } from "@/modules/chatbot/components/ChatbotInput";
 import { ChatbotMessageList } from "@/modules/chatbot/components/ChatbotMessages";
 import { RefreshIcon } from "@/components/icons";
-import { useMockedChatbot } from "@/mocks/mocked-use-chatbot";
+import { useChatbot } from "@/modules/chatbot/useChatbot";
 
 const INITIAL_ASSISTANT_MESSAGE: ChatbotMessage = {
   id: `assistant-${Date.now()}`,
@@ -17,7 +17,7 @@ export default function ChatbotPage() {
     messages,
     isLoading,
     hasError,
-  } = useMockedChatbot([INITIAL_ASSISTANT_MESSAGE]);
+  } = useChatbot([INITIAL_ASSISTANT_MESSAGE])
 
   return (
     <div className="mx-auto w-full grid grid-rows-[auto_1fr_auto] max-w-5xl h-[calc(100dvh-4rem-40px)] border border-sidebar-ring rounded-sm overflow-hidden">
