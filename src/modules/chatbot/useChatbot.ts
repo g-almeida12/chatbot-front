@@ -12,13 +12,14 @@ import type { ChatbotMessage } from "@/modules/chatbot/chatbot.types";
  *
  * @returns Um objeto contendo:
  * - `sendMessage`: Função assíncrona para disparar uma nova mensagem do usuário.
+ * - `clearMessages`: Função síncrona para resetar o estado das mensagens.
  * - `messages`: Lista com o histórico atual de mensagens da conversa (usuário e assistente).
  * - `isLoading`: Booleano que indica se a IA está processando/enviando uma resposta em streaming.
  * - `hasError`: Booleano que indica se ocorreu algum erro na transmissão do evento ou na chamada da API.
  *
  * @example
  * ```tsx
- * const { messages, sendMessage, isLoading, hasError } = useChatbot();
+ * const { messages, sendMessage, clearMessages isLoading, hasError } = useChatbot();
  *
  * const handleSend = (text: string) => {
  *   sendMessage(text);
@@ -106,8 +107,12 @@ export function useChatbot(initialMessages: ChatbotMessage[] = []) {
       setIsLoading(false);
     }
   };
+
+  const clearMessages = () => setMessages(initialMessages);
+
   return {
     sendMessage,
+    clearMessages,
     messages,
     isLoading,
     hasError,

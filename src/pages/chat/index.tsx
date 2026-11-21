@@ -13,7 +13,7 @@ const INITIAL_ASSISTANT_MESSAGE: ChatbotMessage = {
 };
 
 export default function ChatbotPage() {
-  const { sendMessage, messages, isLoading, hasError } =
+  const { sendMessage, clearMessages, messages, isLoading, hasError } =
     useChatbot([INITIAL_ASSISTANT_MESSAGE]);
   const messageListRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +52,7 @@ export default function ChatbotPage() {
             className="text-foreground-400 cursor-pointer"
             aria-label="Limpar conversa"
             title="Limpar conversa"
-            onClick={() => {}} //TODO: função de nova conversa
+            onClick={clearMessages}
           >
             <DeleteIcon size={20} className="text-muted-foreground" />
           </button>
