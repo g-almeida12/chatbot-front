@@ -1,6 +1,7 @@
 @layer cinnamon-theme, cinnamon-base, cinnamon-components, cinnamon-utilities, theme, base, components, utilities;
 
 @import "tailwindcss";
+@puglin "@tailwindcss/typography";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@cincoders/cinnamon/cinnamon.css";

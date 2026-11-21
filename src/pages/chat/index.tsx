@@ -1,8 +1,9 @@
 import type { ChatbotMessage } from "@/modules/chatbot/chatbot.types";
 import { ChatbotInput } from "@/modules/chatbot/components/ChatbotInput";
-import { ChatbotMessageList } from "@/modules/chatbot/components/ChatbotMessages";
-import { RefreshIcon } from "@/components/icons";
+import { ChatbotMessageList } from "@/modules/chatbot/components/ChatbotMessageList";
+import { DeleteIcon } from "@/components/icons";
 import { useChatbot } from "@/modules/chatbot/useChatbot";
+import { useEffect, useRef } from "react";
 
 const INITIAL_ASSISTANT_MESSAGE: ChatbotMessage = {
   id: `assistant-${Date.now()}`,
@@ -12,12 +13,18 @@ const INITIAL_ASSISTANT_MESSAGE: ChatbotMessage = {
 };
 
 export default function ChatbotPage() {
-  const {
-    sendMessage,
-    messages,
-    isLoading,
-    hasError,
-  } = useChatbot([INITIAL_ASSISTANT_MESSAGE])
+  const { sendMessage, clearMessages, messages, isLoading, hasError } =
+    useChatbot([INITIAL_ASSISTANT_MESSAGE]);
+  const messageListRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!messageListRef.current) return;
+
+    messageListRef.current.scrollTo({
+      top: messageListRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages, isLoading]);
 
   return (
     <div className="mx-auto w-full grid grid-rows-[auto_1fr_auto] max-w-5xl h-[calc(100dvh-4rem-40px)] border border-sidebar-ring rounded-sm overflow-hidden">
@@ -43,11 +50,11 @@ export default function ChatbotPage() {
         <div className="flex flexr-row gap-2">
           <button
             className="text-foreground-400 cursor-pointer"
-            aria-label="Abrir nova conversa"
-            title="Nova conversa"
-            onClick={() => {}} //TODO: função de nova conversa
+            aria-label="Limpar conversa"
+            title="Limpar conversa"
+            onClick={clearMessages}
           >
-            <RefreshIcon size={20} className="text-muted-foreground" />
+            <DeleteIcon size={20} className="text-muted-foreground" />
           </button>
         </div>
       </div>
@@ -56,6 +63,7 @@ export default function ChatbotPage() {
         messages={messages}
         isLoading={isLoading}
         hasError={hasError}
+        messageListRef={messageListRef}
       />
 
       <ChatbotInput onSend={sendMessage} blockSendAction={isLoading} />
