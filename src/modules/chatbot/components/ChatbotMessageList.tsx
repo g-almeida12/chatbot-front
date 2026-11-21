@@ -8,7 +8,7 @@ export function ChatbotMessageList({
   isLoading,
   hasError,
   messageListRef=null,
-}: {
+}: {  
   messages: ChatbotMessage[];
   isLoading: boolean;
   hasError: boolean;
