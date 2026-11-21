@@ -1,17 +1,24 @@
 import { AlertIcon, FileIcon } from "@/components/icons";
 import type { ChatbotMessage } from "../chatbot.types";
+import Markdown from "react-markdown";
+import type { Ref } from "react";
 
 export function ChatbotMessageList({
   messages,
   isLoading,
   hasError,
+  messageListRef=null,
 }: {
   messages: ChatbotMessage[];
   isLoading: boolean;
   hasError: boolean;
+  messageListRef?: Ref<HTMLDivElement>;
 }) {
   return (
-    <div className="min-h-0 flex flex-col flex-1 gap-2 overflow-y-auto p-2">
+    <div
+      className="min-h-0 flex flex-col flex-1 gap-2 overflow-y-auto p-2"
+      ref={messageListRef}
+    >
       {messages.map((msg) => {
         if (msg.role === "system") return null;
 
@@ -35,7 +42,9 @@ export function ChatbotMessageList({
               <span className={`${baseAuthorStyles} text-mauve-400`}>
                 CIn Chatbot
               </span>
-              <span>{msg.content}</span>
+              <div className="prose">
+                <Markdown>{msg.content}</Markdown>
+              </div>
 
               {msg.sourceInfo && (
                 <div className="mt-4">

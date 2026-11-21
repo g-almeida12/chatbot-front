@@ -1,6 +1,6 @@
 import type { ChatbotMessage } from "@/modules/chatbot/chatbot.types";
 import { ChatbotInput } from "@/modules/chatbot/components/ChatbotInput";
-import { ChatbotMessageList } from "@/modules/chatbot/components/ChatbotMessages";
+import { ChatbotMessageList } from "@/modules/chatbot/components/ChatbotMessageList";
 import { RefreshIcon } from "@/components/icons";
 import { useChatbot } from "@/modules/chatbot/useChatbot";
 
