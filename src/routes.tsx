@@ -1,16 +1,21 @@
-import { BrowserRouter, Route, Routes, Navigate, useLocation, Outlet } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
-import { useAuth } from 'react-oidc-context';
-import { setAuthToken, setRefreshTokenFn, setLogoutFn } from './services/api';
-import PageCin from './components/PageCin';
-import ForbiddenPageCin from './components/ForbiddenPageCin';
-import { ErrorBoundary } from './components/ErrorBoundary';
-import { ErrorScreen, httpErrors } from '@cincoders/cinnamon';
-import { ALL_ROLES, Links, Roles } from './utils/enums';
-import TeamPage from './pages/team';
-import LoginPage from './pages/login';
-import ChatbotPage from './pages/chat';
-import TodosPage from './pages/todos';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+  Outlet,
+} from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { useAuth } from "react-oidc-context";
+import { setAuthToken, setRefreshTokenFn, setLogoutFn } from "./services/api";
+import PageCin from "./components/PageCin";
+import ForbiddenPageCin from "./components/ForbiddenPageCin";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { ErrorScreen, httpErrors } from "@cincoders/cinnamon";
+import { ALL_ROLES, Links } from "./utils/enums";
+import LoginPage from "./pages/login";
+import ChatbotPage from "./pages/chat";
 
 /**
  * Error boundary de nível de rota: um erro de renderização numa página mostra a
@@ -32,10 +37,15 @@ function RouteMap() {
   const hasCheckedSession = useRef(false);
 
   useEffect(() => {
-    if (auth.isAuthenticated && !auth.isLoading && !auth.activeNavigator && !hasCheckedSession.current) {
+    if (
+      auth.isAuthenticated &&
+      !auth.isLoading &&
+      !auth.activeNavigator &&
+      !hasCheckedSession.current
+    ) {
       hasCheckedSession.current = true;
       auth.signinSilent().catch(async (err) => {
-        console.error('Session validation failed on load:', err);
+        console.error("Session validation failed on load:", err);
         try {
           await auth.removeUser();
           await auth.clearStaleState();
@@ -55,14 +65,14 @@ function RouteMap() {
 
     const refreshFn = async () => {
       try {
-        console.log('Token expirado, tentando refresh silencioso...');
+        console.log("Token expirado, tentando refresh silencioso...");
         const user = await auth.signinSilent();
         if (user) {
           setAuthToken(user.access_token);
           return user.access_token;
         }
       } catch (renewError) {
-        console.error('Refresh silencioso falhou:', renewError);
+        console.error("Refresh silencioso falhou:", renewError);
       }
       return null;
     };
@@ -120,25 +130,21 @@ function RouteMap() {
         />
 
         {/* Acesso negado: destino do redirect do RequireAuth (cinnamon). */}
-        <Route path={Links.FORBIDDEN} element={<ForbiddenPageCin auth={auth} />} />
+        <Route
+          path={Links.FORBIDDEN}
+          element={<ForbiddenPageCin auth={auth} />}
+        />
 
         {/* Rotas protegidas abertas a qualquer usuário do sistema. O
             RouteErrorBoundary isola falhas de renderização por página. */}
         <Route element={<PageCin auth={auth} permittedRoles={ALL_ROLES} />}>
           <Route element={<RouteErrorBoundary />}>
             <Route path={Links.CHAT} element={<ChatbotPage />} />
-            <Route path={Links.TODOS} element={<TodosPage />} />
             {/* Rota desconhecida: componente de erro pronto da cinnamon (404). */}
-            <Route path="*" element={<ErrorScreen errorType={httpErrors.NOTFOUND_404} />} />
-          </Route>
-        </Route>
-
-        {/* Rotas de gerenciamento — só ADMIN. Mesma tela do CIn, mas com
-            `permittedRoles={[Roles.ADMIN]}`: quem não é ADMIN é redirecionado
-            para /forbidden pelo RequireAuth do cinnamon. */}
-        <Route element={<PageCin auth={auth} permittedRoles={[Roles.ADMIN]} />}>
-          <Route element={<RouteErrorBoundary />}>
-            <Route path={Links.TEAM} element={<TeamPage />} />
+            <Route
+              path="*"
+              element={<ErrorScreen errorType={httpErrors.NOTFOUND_404} />}
+            />
           </Route>
         </Route>
       </Routes>
