@@ -33,6 +33,7 @@ export interface ChatbotMessage {
   role: MessageRole;
   content: string;
   links?: ChatLink[];
+  contacts?: Record<string, string>
 }
 
 /**

@@ -27,9 +27,9 @@ export default function ChatbotPage() {
   }, [messages, isLoading]);
 
   return (
-    <div className="mx-auto w-full grid grid-rows-[auto_1fr_auto] max-w-5xl h-[calc(100dvh-4rem-40px)] border border-sidebar-ring rounded-sm overflow-hidden">
+    <div className="mx-auto w-full grid grid-rows-[auto_1fr_auto] grid-cols-1 max-w-5xl h-[calc(100dvh-4rem-40px)] border border-sidebar-ring rounded-sm overflow-hidden">
       {/* Top bar */}
-      <div className="flex flex-row items-center justify-between border-b border-b-sidebar-ring px-4 py-2">
+      <div className="max-w-full flex flex-row items-center justify-between border-b border-b-sidebar-ring px-4 py-2">
         {/* Brand */}
         <div className="flex flex-row gap-2 items-center">
           <div className="flex items-center justify-center size-9 rounded-lg bg-[#db1e2f]">
@@ -47,7 +47,7 @@ export default function ChatbotPage() {
         </div>
 
         {/* Buttons */}
-        <div className="flex flexr-row gap-2">
+        <div className="flex flex-row gap-2">
           <button
             className="text-foreground-400 cursor-pointer"
             aria-label="Limpar conversa"
