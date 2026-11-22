@@ -36,7 +36,7 @@ export function ChatbotMessageList({
           </div>
         ) : (
           // Assistant message
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4" key={msg.id}>
             <div
               className={`${baseContentStyles} self-start rounded-tl-none bg-mauve-100 after:content-[''] after:absolute after:top-0 after:-left-1 after:border-6 after:border-transparent after:border-t-mauve-100 after:border-r-mauve-100`}
               key={msg.id}
@@ -55,8 +55,8 @@ export function ChatbotMessageList({
                     Fontes
                   </span>
                   <div className="flex flex-col gap-2">
-                    {msg.links.map((lk) => (
-                      <a href={lk.url} target="_blank">
+                    {msg.links.map((lk, idx) => (
+                      <a href={lk.url} target="_blank" key={`link-${idx}`}>
                         <div className="flex flex-row items-center gap-3 rounded-md border border-sidebar-ring p-2 bg-background cursor-pointer select-none hover:border-[#db1e2f] hover:bg-red-100">
                           <FileIcon size={20} className="text-[#db1e2f]" />
                           <div className="flex flex-col gap-0">
@@ -77,7 +77,7 @@ export function ChatbotMessageList({
                   </span>
                   <div className="flex flex-col rounded-md border border-sidebar-ring px-2 bg-background">
                     {Object.entries(msg.contacts).map(([key, value], idx) => (
-                      <div>
+                      <div key={`contact-${idx}`}>
                         <div className="flex flex-row gap-4 p-2">
                           <span className="text-sm text-muted-foreground min-w-15">
                             {key}
