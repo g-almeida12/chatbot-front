@@ -1,29 +1,17 @@
 import { API_URL, fetchApi, getApiErrorMessage } from "@/services/api";
-import type {
-  ChatbotRequestDTO,
-  ChatbotStreamEvent,
-} from "@/modules/chatbot/chatbot.types";
-
-interface ChatResponse {
-  answer: string;
-  found: boolean;
-  links: { name: string; url: string }[];
-}
+import type { ChatLink } from "@/modules/chatbot/chatbot.types";
 
 export class ChatbotService {
-  async sendPromptStream(
-    dto: ChatbotRequestDTO,
-    onEvent: (event: ChatbotStreamEvent) => void,
+  async sendPrompt(
+    prompt: string,
+    onFinish: (response: ChatbotResponse) => void,
   ): Promise<void> {
-    const message = [...dto.messages]
-      .reverse()
-      .find((m) => m.role === "user")?.content;
-    if (!message) throw new Error("Nenhuma pergunta para enviar.");
+    if (!prompt) throw new Error("Nenhuma pergunta para enviar.");
 
     const response = await fetchApi(`${API_URL}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message: prompt }),
     });
 
     if (!response.ok) {
@@ -33,17 +21,24 @@ export class ChatbotService {
     }
 
     const body = await response.json();
-    const data: ChatResponse = body.data ?? body;
-    onEvent({ type: "token", content: data.answer });
-
-    if (data.links.length > 0) {
-      onEvent({
-        type: "sources",
-        success: data.found,
-        sources: data.links.map((link) => ({ title: link.name, url: link.url })),
-      });
-    }
+    onFinish(body.data as ChatbotResponse);
   }
 }
 
 export const chatbotService = new ChatbotService();
+
+/**
+ * Estrutura representando o objeto de resposta da API.
+ *
+ * Propriedades:
+ * - `answer`: A resposta em texto do chatbot.
+ * - `found`: Um booleano indicando se a pergunta do usuário foi ou não encontrada no banco.
+ * - `links`: As fontes encontradas para responder a pergunta do usuário.
+ * - `contacts`: Um objeto contendo os contatos para o caso da pergunta não ser respondida.
+ */
+export interface ChatbotResponse {
+  answer: string;
+  found: boolean;
+  links: ChatLink[];
+  contacts: Record<string, string>;
+}
