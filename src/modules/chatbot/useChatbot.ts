@@ -56,6 +56,7 @@ export function useChatbot(initialMessages: ChatbotMessage[] = []) {
           role: "assistant",
           content: response.answer,
           links: response.links,
+          contacts: response.contacts
         };
         setMessages((prev) => [...prev, assistantMessage]);
       });
