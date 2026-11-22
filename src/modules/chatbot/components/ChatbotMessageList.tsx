@@ -7,8 +7,8 @@ export function ChatbotMessageList({
   messages,
   isLoading,
   hasError,
-  messageListRef=null,
-}: {  
+  messageListRef = null,
+}: {
   messages: ChatbotMessage[];
   isLoading: boolean;
   hasError: boolean;
@@ -46,23 +46,18 @@ export function ChatbotMessageList({
                 <Markdown>{msg.content}</Markdown>
               </div>
 
-              {msg.sourceInfo && (
+              {msg.links && msg.links.length > 0 && (
                 <div className="mt-4">
                   <span className="block mb-2 text-sm text-muted-foreground">
-                    {msg.sourceInfo.success ? "Fontes" : "Sites oficiais"}
+                    Fontes
                   </span>
                   <div className="flex flex-col gap-2">
-                    {msg.sourceInfo.sources.map((src) => (
-                      <a href={src.url} target="_blank">
+                    {msg.links.map((lk) => (
+                      <a href={lk.url} target="_blank">
                         <div className="flex flex-row items-center gap-3 rounded-md border border-sidebar-ring p-2 bg-background cursor-pointer select-none hover:border-[#db1e2f] hover:bg-red-100">
                           <FileIcon size={20} className="text-[#db1e2f]" />
                           <div className="flex flex-col gap-0">
-                            <span className="text-sm ">{src.title}</span>
-                            {src.description && (
-                              <span className="text-[12px] text-muted-foreground">
-                                {src.description}
-                              </span>
-                            )}
+                            <span className="text-sm ">{lk.name}</span>
                           </div>
                         </div>
                       </a>
