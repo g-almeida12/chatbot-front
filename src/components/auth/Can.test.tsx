@@ -24,8 +24,8 @@ function setRoles(roles: string[] | null) {
 describe('<Can>', () => {
   beforeEach(() => mockUseAuth.mockReset());
 
-  it('renderiza os filhos quando o usuário tem a role (editor + escrita)', () => {
-    setRoles(['sys_chatbot-editor']);
+  it('renderiza os filhos quando o usuário tem a role admin', () => {
+    setRoles(['sys_chatbot-admin']);
     render(
       <Can roles={WRITE_ROLES}>
         <button>Novo</button>
@@ -34,7 +34,7 @@ describe('<Can>', () => {
     expect(screen.queryByText('Novo')).not.toBeNull();
   });
 
-  it('esconde os filhos quando não tem a role (usuário comum + escrita)', () => {
+  it('esconde os filhos quando não tem a role admin (usuário comum)', () => {
     setRoles(['sys_chatbot-users']);
     render(
       <Can roles={WRITE_ROLES}>
@@ -44,8 +44,8 @@ describe('<Can>', () => {
     expect(screen.queryByText('Novo')).toBeNull();
   });
 
-  it('esconde delete para editor mas mostra para admin', () => {
-    setRoles(['sys_chatbot-editor']);
+  it('esconde ação de admin para usuário comum mas mostra para admin', () => {
+    setRoles(['sys_chatbot-users']);
     const { rerender } = render(
       <Can roles={[Roles.ADMIN]}>
         <button>Excluir</button>

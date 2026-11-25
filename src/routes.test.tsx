@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import RouteMap from './routes';
 import type { AuthContextProps } from 'react-oidc-context';
+import { Links } from './utils/enums';
 
 const mockUseAuth = vi.fn();
 vi.mock('react-oidc-context', () => ({
@@ -73,8 +74,8 @@ describe('<RouteMap>', () => {
     expect(mockSigninRedirect).toHaveBeenCalledTimes(1);
   });
 
-  it('libera /chatbot para usuário autenticado sem role de admin', async () => {
-    window.history.pushState({}, 'Test', '/chatbot');
+  it('libera /chat para usuário autenticado sem role de admin', async () => {
+    window.history.pushState({}, 'Test', Links.CHAT);
 
     mockUseAuth.mockReturnValue({
       isAuthenticated: true,
@@ -95,7 +96,6 @@ describe('<RouteMap>', () => {
 
     render(<RouteMap />);
 
-    // Ajuste o seletor abaixo para algum texto/placeholder/role visível na sua página do Chatbot
     expect(
       await screen.findByPlaceholderText(/Escreva sua dúvida/i),
     ).toBeInTheDocument();
@@ -103,8 +103,8 @@ describe('<RouteMap>', () => {
     expect(mockSigninRedirect).not.toHaveBeenCalled();
   });
 
-  it('redireciona para / e exibe tela de login quando usuário não autenticado tenta acessar /chatbot', () => {
-    window.history.pushState({}, 'Test', '/chatbot');
+  it('redireciona para / e exibe tela de login quando usuário não autenticado tenta acessar /chat', () => {
+    window.history.pushState({}, 'Test', Links.CHAT);
 
     mockUseAuth.mockReturnValue({
       isAuthenticated: false,
